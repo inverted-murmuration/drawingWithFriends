@@ -63,5 +63,11 @@ io.on('connection', function(socket) {
     util.retrievePictureModels(socket);
   });
 
+  socket.on('get games', function() {
+    console.log('Get game server');
+    data = util.retrieveOpenGames(socket);
+    // socket.broadcast.emit('get games', data);
+  });
+
 });
 
