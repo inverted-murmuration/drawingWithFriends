@@ -24,16 +24,25 @@ bookshelf.knex.schema.hasTable('Picture').then(function (exists) {
     });
   }
 });
+
 bookshelf.knex.schema.hasTable('Line').then(function (exists) {
   if (!exists) {
     bookshelf.knex.schema.createTable('Line', function (line) {
       line.increments('id').primary();
       line.string('coordinates', 20000); //json
-      line.integer('picture_id').references('Picture.id');
+      line.integer('picture_id').references('Picture');
       line.timestamps();
     }).then(function (table) {
       console.log('Created table', table);
     });
   }
 });
+
+/**
+  * Drops all tables in the Database
+  */
+bookshelf.down = function(knex, Promise) {
+  return knex.schema.dropTable('Line')
+    .dropTable('Pircture');
+};
 module.exports = bookshelf;
