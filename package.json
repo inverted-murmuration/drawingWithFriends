@@ -5,6 +5,7 @@
   "main": "server.js",
   "dependencies": {
     "bookshelf": "^0.8.1",
+    "bower": "^1.4.1",
     "express": "^4.12.4",
     "knex": "^0.8.6",
     "mysql": "^2.7.0",
@@ -15,6 +16,7 @@
   "devDependencies": {},
   "scripts": {
     "start": "node server/server.js",
+    "postinstall": "./node_modules/bower/bin/bower install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
