@@ -8,3 +8,5 @@ dist/
 
 # OSX
 .DS_Store
+
+.idea
