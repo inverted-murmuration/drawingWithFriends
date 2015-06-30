@@ -1,4 +1,4 @@
-[![Stories in Ready](https://badge.waffle.io/lackadaisicalFoxtrot/drawingWithFriends.png?label=ready&title=Ready)](https://waffle.io/lackadaisicalFoxtrot/drawingWithFriends)
+[![Stories in Ready](https://badge.waffle.io/inverted-murmuration/drawingWithFriends.png?label=ready&title=Ready)](https://waffle.io/inverted-murmuration/drawingWithFriends)
 # drawingWithFriends
 
 > Live, collaborative drawing app
@@ -51,7 +51,7 @@ bower install
 
 ### Roadmap
 
-View the project roadmap [here](https://waffle.io/lackadaisicalFoxtrot/drawingWithFriends)
+View the project roadmap [here](https://waffle.io/inverted-murmuration/drawingWithFriends)
 
 ## Contributing
 
