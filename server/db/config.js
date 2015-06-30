@@ -1,12 +1,12 @@
 var path = require('path');
 
 var knex = require('knex')({
-  client : 'pg',
+  client : 'mysql',
   connection : process.env.DATABASE_URL || { //TODO edit this to depend on ENV variable 'production' or not
     host : '127.0.0.1',
-    user : 'smkhalsa',
+    user : 'root',
     //password : '123',
-    database : 'smkhalsa', //for now, or making a schema to make a custom local db/open sql to make
+    database : 'test', //for now, or making a schema to make a custom local db/open sql to make
     charset : 'utf8'
   }
 });
