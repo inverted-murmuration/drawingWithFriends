@@ -76,11 +76,19 @@ module.exports.retrievePictureModels = function(socket){
   //OR
 
   new Line({}).fetchAll().then(function(pictures){
-    socket.emit('gallery served', pictures)
+    socket.emit('gallery served', pictures);
     //console.log(pictures);
-  })
+  });
 
   //
+};
+
+module.exports.retrieveOpenGames = function(socket) {
+  //TODO fetch only available games
+  new Game({}).fetchAll().then(function(games){  
+    socket.emit('get games', games);
+    console.log(games);
+  });
 };
 
 module.exports.sendTimer = sendTimer;
