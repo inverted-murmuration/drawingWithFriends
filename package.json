@@ -16,7 +16,7 @@
   "devDependencies": {},
   "scripts": {
     "start": "node server/server.js",
-    "postinstall": "./node_modules/bower/bin/bower install",
+    "postinstall": "bower install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
