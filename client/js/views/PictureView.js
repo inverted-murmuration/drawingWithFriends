@@ -15,7 +15,6 @@ app.PictureView = Backbone.View.extend({
     this.model.get('lines').on('reset', function(options) {
       //TODO tell each line view to remove itself, or mass remove like so:
       //debugger;
-      this.render(options)
       if (Backbone.history.getFragment() !== 'draw') return; //horribleness TODO. only do view rendering stuff is it's the correct view
       this.render(options);
       //this.d3;
