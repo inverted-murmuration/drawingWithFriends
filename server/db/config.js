@@ -43,6 +43,6 @@ bookshelf.knex.schema.hasTable('Line').then(function (exists) {
   */
 bookshelf.down = function(knex, Promise) {
   return knex.schema.dropTable('Line')
-    .dropTable('Pircture');
+    .dropTable('Picture');
 };
 module.exports = bookshelf;
