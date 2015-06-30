@@ -38,6 +38,17 @@ bookshelf.knex.schema.hasTable('Line').then(function (exists) {
   }
 });
 
+bookshelf.knex.schema.hasTable('Game').then(function (exists) {
+  if (!exists) {
+    bookshelf.knex.schema.createTable('Game', function (game) {
+      game.increments('id').primary();
+      game.timestamps();
+    }).then(function (table) {
+      console.log('Created table', table);
+    });
+  }
+});
+
 /**
   * Drops all tables in the Database
   */
