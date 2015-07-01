@@ -86,4 +86,5 @@ bookshelf.down = function(knex, Promise) {
   return knex.schema.dropTable('Line')
     .dropTable('Picture');
 };
+
 module.exports = bookshelf;

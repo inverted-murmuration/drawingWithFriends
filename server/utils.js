@@ -1,5 +1,6 @@
 // will contain and export callback functions for server actions
 var db = require('./db/config');
+var Promise = require('bluebird');
 var Line = require('./db/models/line');
 var Lines = require('./db/collections/lines');
 var Picture = require('./db/models/picture');
@@ -93,10 +94,20 @@ module.exports.retrieveOpenGames = function(socket) {
 
 module.exports.sendTimer = sendTimer;
 
-// get random adjective from words table
+// gets random adjective from words table
 module.exports.getAdjective = function() {
+  return new Promise(function(resolve, reject) {
+    resolve(db.knex.raw("select text from words where type='adjective' order by rand() limit 1").then(function(data) {
+      return data[0][0].text;
+    }));
+  })
 };
 
-// get random verb from words table
+// gets random verb from words table
 module.exports.getVerb = function() {
+  return new Promise(function(resolve, reject){
+    resolve(db.knex.raw("select text from words where type='verb' order by rand() limit 1").then(function(data) {
+      return data[0][0].text;
+    }));
+  })
 };
