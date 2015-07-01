@@ -3,15 +3,19 @@
 var app = app || {};
 
 app.GamesView = Backbone.View.extend({
-  initialize : function() {
-    socket.emit('get games');
+  initialize: function() {
     $('.container').text('loading...');
     this.collection.on('processed', this.render, this);
-
   },
-  render : function () {
-    //this.$el.detach();
-    $('.container')
-    .append("This is a game!");
+  render: function() {
+    $('.container').empty();
+    this.collection.forEach(this.renderGame, this);
+  },
+  renderGame: function(game) {
+    var gameView = new app.GameMiniView({
+      model: game
+    });
+    $('.container').append(gameView.render());
+
   }
 });
