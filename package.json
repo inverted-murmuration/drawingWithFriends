@@ -4,6 +4,7 @@
   "description": "web app",
   "main": "server.js",
   "dependencies": {
+    "bluebird": "^2.9.30",
     "bookshelf": "^0.8.1",
     "bower": "^1.4.1",
     "express": "^4.12.4",
