@@ -40,9 +40,9 @@ io.on('connection', function(socket) {
     //TODO move all timer logic to another file?
     timer = util.updateTimer(io, timer, function() { //cb to fire when timer ends
       util.savePictureAndReset(io, function() { //cb to fire upon successful saving/resetting
-        timer = null; 
+      timer = null; 
+
       });
-      socket.emit('round next', data);
     });
 
     socket.broadcast.emit('user moved', data);
