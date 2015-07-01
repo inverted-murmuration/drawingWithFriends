@@ -13,7 +13,7 @@ app.AppView = Backbone.View.extend({
      this.timerView = new app.TimerView({
       model: this.model.timerModel
      });
-     $(this.appContainer).append(this.timerView.render());
+     $(this.appContainer).prepend(this.timerView.render());
      //var colorpicker = new app.ColorPickerView();
   }
 
