@@ -92,3 +92,11 @@ module.exports.retrieveOpenGames = function(socket) {
 };
 
 module.exports.sendTimer = sendTimer;
+
+// get random adjective from words table
+module.exports.getAdjective = function() {
+};
+
+// get random verb from words table
+module.exports.getVerb = function() {
+};
