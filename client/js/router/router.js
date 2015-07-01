@@ -6,7 +6,8 @@ app.router = Backbone.Router.extend({
     'draw' : 'draw',
     'gallery' : 'gallery',
     'games': 'games',
-    'gallery/:page' : 'gallery' //TODO ????
+    'gallery/:page' : 'gallery',
+    'game' : "game" //TODO ????
   },
   initialize: function(){
     this.appModel = new app.AppModel(); //the 'app' is the drawing portion of the app
@@ -44,6 +45,9 @@ app.router = Backbone.Router.extend({
     $('.container').empty();
     this.gamesCollection = new app.GamesCollection();
     this.GamesView = new app.GamesView({collection: this.gamesCollection});
-
+  },
+  game : function() {
+    $('.container').empty();
+    this.appView = new app.AppView({model: this.appModel})
   }
 });
