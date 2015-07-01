@@ -4,15 +4,14 @@ var Promise = require('bluebird');
 var Line = require('./db/models/line');
 var Lines = require('./db/collections/lines');
 var Picture = require('./db/models/picture');
-var Pictures = require('./db/collections/pictures');
 var Game = require('./db/models/game');
 var Games = require('./db/collections/games');
-//timer functionality
 var Timer = require('timer-stopwatch');
 
-var sendTimer = function(io, timer) { //send the timer upon (any) client timer mode init (if there is a timer going), or upon user drawing the first line. io.emit to all to keep client timer more up to date
-  //if there is no timer going, will emit time: null
-  //console.log('settimer');
+var sendTimer = function(io, timer) {
+  // send the timer upon (any) client timer mode init (if there is a timer going),
+  // or upon user drawing the first line. io.emit to all to keep client timer more up to date
+  // if there is no timer going, will emit time: null
   io.emit('setTimer', {time: timer && timer.ms});
 };
 
@@ -22,15 +21,9 @@ var sendTimer = function(io, timer) { //send the timer upon (any) client timer m
 //returns the timer
 module.exports.updateTimer = function(io, timer, cb) {
     if (!timer) {
-      //console.log('no timer');
-      var ms = 300000; //5 min
-      timer = new Timer(10000, { //30 sec
+      timer = new Timer(20000, {
           refreshRateMS: '1000'
-          //almostDoneMS: 290000 //this will emit an event when the timer is almost done ... probably not necessary, TODO - get rid of this if we don't use it
         });
-
-      //timer.on('time', function(time) {
-      //});
       timer.on('done', cb);
       timer.start();
       sendTimer(io, timer);
@@ -62,7 +55,6 @@ module.exports.savePictureAndReset = function(io, cb) {
       Lines.reset();
       io.emit('got lines', Lines); //all clients redraws lines (no lines) TODO
       cb();
-      //timer = null;
     }).catch(function(err) {
       return console.error('error saving all line models to db: ', err);
     });
@@ -90,7 +82,6 @@ module.exports.retrieveOpenGames = function(socket) {
   //TODO fetch only available games
   new Game({}).fetchAll().then(function(games){  
     socket.emit('games served', games);
-    // console.log(games);
   });
 };
 
