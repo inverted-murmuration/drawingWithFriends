@@ -4,6 +4,8 @@ var Line = require('./db/models/line');
 var Lines = require('./db/collections/lines');
 var Picture = require('./db/models/picture');
 var Pictures = require('./db/collections/pictures');
+var Game = require('./db/models/game');
+var Games = require('./db/collections/games');
 //timer functionality
 var Timer = require('timer-stopwatch');
 
@@ -86,8 +88,8 @@ module.exports.retrievePictureModels = function(socket){
 module.exports.retrieveOpenGames = function(socket) {
   //TODO fetch only available games
   new Game({}).fetchAll().then(function(games){  
-    socket.emit('get games', games);
-    console.log(games);
+    socket.emit('games served', games);
+    // console.log(games);
   });
 };
 

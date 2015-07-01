@@ -43,7 +43,7 @@ app.router = Backbone.Router.extend({
   },
   games : function(){
     $('.container').empty();
-    this.gamesCollection = new app.GamesCollection();
+    this.gamesCollection = new app.GamesCollection([]);
     this.GamesView = new app.GamesView({collection: this.gamesCollection});
   },
   game : function() {
