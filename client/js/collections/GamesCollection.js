@@ -6,6 +6,7 @@ var app = app || {};
 app.GamesCollection = Backbone.Collection.extend({
   model: app.GameModel,
 
+
   initialize: function() {
     socket.emit('get games');
     socket.on('games served', function(data) {

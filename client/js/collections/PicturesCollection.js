@@ -8,6 +8,7 @@ app.PicturesCollection = Backbone.Collection.extend({
 
 	initialize : function(){
 		socket.emit('gallery needed');
+    console.log('gallery needed')
 		socket.on('gallery served', function(data){
 			this.processDbLines(data);
 		}.bind(this));

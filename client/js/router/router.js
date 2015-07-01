@@ -37,6 +37,7 @@ app.router = Backbone.Router.extend({
     },
   gallery : function(page){
     $('.container').empty();
+    console.log('router gallery')
     this.picturesCollection = new app.PicturesCollection();
     this.picturesView = new app.PicturesView({collection: this.picturesCollection});
 
