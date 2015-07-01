@@ -7,7 +7,6 @@ app.LineCollection = Backbone.Collection.extend({
 
   initialize: function() {
     socket.on('got lines', function(lines) { //lines/datas
-      //console.log('got lines: ', lines);
       this.reset();
       this.set(lines); //should be empty if server lines got wiped
     }.bind(this));
