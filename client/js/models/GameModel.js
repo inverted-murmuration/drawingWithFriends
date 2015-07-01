@@ -7,6 +7,9 @@ app.GameModel = Backbone.Model.extend({
     this.timerModel = new app.TimerModel();
     // Things to do when timer runs out
     socket.on('round next', function(data) {
+      //if not max round
+        //reset timer
+      //else end game
     });
     // When a user joins
     this.on('join', function() {
@@ -20,15 +23,10 @@ app.GameModel = Backbone.Model.extend({
   },
   
   defaults: {
-    text: '',
+    currentSentence: '',
     // true == player 1; false == player 2
-    currentPlayer: true
-  },
-
-  madLibGen: function() {},
-  timer: function() {}
-
-
-
+    currentPlayer: true,
+    maximumRounds: 3
+  }
 
 });
