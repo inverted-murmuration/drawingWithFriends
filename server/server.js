@@ -66,20 +66,30 @@ io.on('connection', function(socket) {
   });
 
   socket.on('createGame', function() {
-    var myGame = new Game();
-    var newAdj = util.getAdjective();
-    Games.add(myGame);
-    myGame.set({
-      phrase: newAdj,
-      // Moved to game model
-      // currentRound: 0,
-      // lastRound: 2
-    });
-    myGame.save();
-    socket.broadcast.emit('servePhrase', {
-      phrase: newAdj,
-      gameId: myGame.get('id')
-    });
+    var newAdj = '';
+    // Generate random adjective
+    util.getAdjective()
+      .then(function(data) {
+        newAdj = data;
+        // Create a new game
+        var myGame = new Game({
+          phrase: newAdj
+          // Moved to game model
+          // currentRound: 0,
+          // lastRound: 2
+        });
+        // Adding this game to global list of games
+        Games.add(myGame);
+        // Save this game to database
+        myGame.save()
+        .then(function(game) {
+          // Emit servePhrase with phrase and this game's id
+          socket.broadcast.emit('servePhrase', {
+            phrase: newAdj,
+            gameId: myGame.get('id')
+          });
+        });
+      });
   });
 
   socket.on('sendPhrase', function(data) {
