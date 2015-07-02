@@ -3,7 +3,8 @@ var app = app || {};
 app.GameModel = Backbone.Model.extend({
 
   defaults: {
-    phrase: ''
+    phrase: '',
+    round: 0
   },
 
   initialize: function(options) {
@@ -11,7 +12,7 @@ app.GameModel = Backbone.Model.extend({
     this.timerModel = new app.TimerModel();
     var context = this;
     this.set('playerNumber', options.playerNumber);
-    console.log('playerNumber: ', this.get('playerNumber'));
+
     // Things to do when timer runs out
     socket.on('round next', function(data) {
       //if not max round
@@ -37,6 +38,7 @@ app.GameModel = Backbone.Model.extend({
       }
     }
     socket.on('roundChange', function(data) {
+      console.log('round changed to: ', data.round);
       context.set({round: data.round});
     })
   },

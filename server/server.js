@@ -27,7 +27,7 @@ io.on('connection', function(socket) {
 
   //TODO rename these events without spaces etc
   socket.on('get lines', function() { //user has requested the lines because the picture view is rendering
-    socket.emit('got lines', Lines); //send the lines every time the user requests it (not very efficient, think about having view run in bg so this is only emitted once)
+    io.sockets.emit('got lines', Lines); //send the lines every time the user requests it (not very efficient, think about having view run in bg so this is only emitted once)
     //maybe call this set lines to conform
   });
   socket.on('getTimer', function() {
@@ -84,7 +84,7 @@ io.on('connection', function(socket) {
         myGame.save()
         .then(function() {
           // Emit servePhrase with phrase and this game's id
-          socket.emit('servePhrase', {
+          io.sockets.emit('servePhrase', {
             phrase: newAdj,
             gameId: myGame.get('id')
           });
@@ -105,13 +105,13 @@ io.on('connection', function(socket) {
           util.getAdjective()
           .then(function(newAdj) {
             newPhrase = context.phrase + ' ' + newAdj;
-            socket.emit('servePhrase', {phrase: newPhrase});
+            io.sockets.emit('servePhrase', {phrase: newPhrase});
             game.set('phrase', newPhrase);
             game.incrementRounds();
             game.save()
               .then(function(theGame) {
                 console.log(theGame.get('currentRound'));
-                socket.emit('roundChange', {round: theGame.get('currentRound')});
+                io.sockets.emit('roundChange', {round: theGame.get('currentRound')});
               });
           });
         });
@@ -119,7 +119,7 @@ io.on('connection', function(socket) {
         util.getAdjective()
         .then(function(newAdj) {
           newPhrase = context.phrase + ' ' + newAdj;
-          socket.emit('servePhrase', {phrase: newPhrase});
+          io.sockets.emit('servePhrase', {phrase: newPhrase});
           game.set('phrase', newPhrase);
           // game.incrementRounds();
           game.save();
@@ -140,14 +140,14 @@ io.on('connection', function(socket) {
       game.incrementRounds();
       game.save()
       .then(function(theGame) {
-        socket.emit('servePhrase', {phrase: theGame.get('phrase')});
+        io.sockets.emit('servePhrase', {phrase: theGame.get('phrase')});
         //Round 1
         console.log(theGame.get('currentRound'));
-        socket.emit('roundChange', {round: theGame.get('currentRound')});
+        io.sockets.emit('roundChange', {round: theGame.get('currentRound')});
         timer = util.updateTimer(io, timer, function() {
           var newAdj = util.getAdjective();
           var newPhrase = context.get('phrase') + newAdj;
-          socket.emit('servePhrase', {phrase: newPhrase});
+          io.sockets.emit('servePhrase', {phrase: newPhrase});
         });
       });
     });
