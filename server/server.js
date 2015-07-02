@@ -108,7 +108,11 @@ io.on('connection', function(socket) {
             socket.emit('servePhrase', {phrase: newPhrase});
             game.set('phrase', newPhrase);
             game.incrementRounds();
-            game.save();
+            game.save()
+              .then(function(theGame) {
+                console.log(theGame.get('currentRound'));
+                socket.emit('roundChange', {round: theGame.get('currentRound')});
+              });
           });
         });
       } else {
@@ -137,6 +141,8 @@ io.on('connection', function(socket) {
       game.save()
       .then(function(theGame) {
         socket.emit('servePhrase', {phrase: theGame.get('phrase')});
+        //Round 1
+        console.log(theGame.get('currentRound'));
         socket.emit('roundChange', {round: theGame.get('currentRound')});
         timer = util.updateTimer(io, timer, function() {
           var newAdj = util.getAdjective();
