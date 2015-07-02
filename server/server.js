@@ -127,6 +127,7 @@ io.on('connection', function(socket) {
   });
 
   socket.on('joinGame', function(data) {
+    console.log('Joining Game ', data);
     var gameId = data.gameId;
     new Game({id: gameId})
     .fetch()

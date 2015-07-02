@@ -6,11 +6,11 @@ app.router = Backbone.Router.extend({
     'draw' : 'draw',
     'gallery' : 'gallery',
     'games': 'games',
-    'gallery/:page' : 'gallery',
-    'game' : "game" //TODO ????
+    'game/:gameId': 'game'
+    'gallery/:page' : 'gallery'
+    // 'game' : "game" //TODO ????
   },
   initialize: function(){
-    this.gameModel = new app.GameModel(); //the 'app' is the drawing portion of the app
   },
   home : function(){
     //TODO refactor all these container emptys
@@ -31,6 +31,7 @@ app.router = Backbone.Router.extend({
     this.GamesView = new app.GamesView({collection: this.gamesCollection});
   },
   game : function() {
+    this.gameModel = new app.GameModel({playerNumber: 1}); //the 'app' is the drawing portion of the app
     $('.container').empty();
     this.gameView = new app.GameView({model: this.gameModel})
   }
