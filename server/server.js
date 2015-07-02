@@ -127,7 +127,6 @@ io.on('connection', function(socket) {
   });
 
   socket.on('joinGame', function(data) {
-    console.log('Joining Game ', data);
     var gameId = data.gameId;
     new Game({id: gameId})
     .fetch()
@@ -146,7 +145,6 @@ io.on('connection', function(socket) {
   });
 
   socket.on('get games', function() {
-    console.log('Get game server');
     data = util.retrieveOpenGames(socket);
     // socket.broadcast.emit('get games', data);
   });

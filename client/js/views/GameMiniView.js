@@ -3,12 +3,10 @@
 var app = app || {};
 
 app.GameMiniView = Backbone.View.extend({
-  template: _.template('<div class="GameMini"> Click Here for game number <%- id %> ! </div>'),
+  template: _.template('<a href="#game/<%= id %>"><div class="GameMini"> Click Here for game number <%- id %> ! </div></a>'),
   events: {
     'click': function() {
       //TODO
-      alert('should do something for id: ' + this.model.id);
-      socket.emit('joinGame', {gameId: this.model.id});
     }
   },
 
