@@ -21,7 +21,9 @@ app.GameModel = Backbone.Model.extend({
     socket.on('servePhrase', function(data) {
       // phrase is an object. use phrase.phrase to access
       context.set({phrase: data.phrase});
-      context.set({gameId: data.gameId});
+      if (data.hasOwnProperty('gameId')) {
+        context.set({gameId: data.gameId});
+      }
     });
     socket.on('startTimer', function(data) {
       // time is an object. use time.time to access time
