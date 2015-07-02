@@ -15,6 +15,18 @@ var knex = require('knex')({
 var bookshelf = require('bookshelf')(knex);
 bookshelf.plugin('registry');
 
+// clear database tables
+//bookshelf.down = function() {
+//  return knex.schema.dropTable('Line')
+//      .dropTable('Picture')
+//      .dropTable('Game')
+//};
+//bookshelf.down();
+
+knex.schema.dropTableIfExists('Line');
+knex.schema.dropTableIfExists('Picture');
+knex.schema.dropTableIfExists('Game');
+
 bookshelf.knex.schema.hasTable('Picture').then(function (exists) {
   if (!exists) {
     bookshelf.knex.schema.createTable('Picture', function (picture) {
@@ -81,13 +93,5 @@ bookshelf.knex.schema.hasTable('Words').then(function (exists) {
     });
   }
 });
-
-/**
-  * Drops all tables in the Database
-  */
-bookshelf.down = function(knex, Promise) {
-  return knex.schema.dropTable('Line')
-    .dropTable('Picture');
-};
 
 module.exports = bookshelf;
