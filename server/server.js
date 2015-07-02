@@ -4,6 +4,8 @@ var Line = require('./db/models/line');
 var Lines = require('./db/collections/lines');
 var Picture = require('./db/models/picture');
 var Pictures = require('./db/collections/pictures');
+var Game = require('./db/models/game');
+var Games = require('./db/collections/games');
 var util = require('./utils'); //TODO maybe as an injection like routes
 
 
@@ -61,6 +63,85 @@ io.on('connection', function(socket) {
     ///console.log('server has received gallery populate event from client');
     //console.log(util.retrievePictureModels());
     util.retrievePictureModels(socket);
+  });
+
+  socket.on('createGame', function() {
+    var newAdj = '';
+    // Generate random adjective
+    util.getAdjective()
+      .then(function(data) {
+        newAdj = data;
+        // Create a new game
+        var myGame = new Game({
+          phrase: newAdj
+          // Moved to game model
+          // currentRound: 0,
+          // lastRound: 2
+        });
+        // Adding this game to global list of games
+        Games.add(myGame);
+        // Save this game to database
+        myGame.save()
+        .then(function() {
+          // Emit servePhrase with phrase and this game's id
+          socket.emit('servePhrase', {
+            phrase: newAdj,
+            gameId: myGame.get('id')
+          });
+        });
+      });
+  });
+
+  socket.on('sendPhrase', function(data) {
+    //TODO: Handle going over last round
+    var context = data;
+    new Game({id: data.gameId})
+    .fetch()
+    .then(function(game) {
+      var newPhrase;
+      if (game.currentRound > 0 && game.currentRound < game.lastRound) {
+        timer = util.updateTimer(io, timer, function() {
+          util.getAdjective()
+          .then(function(newAdj) {
+            newPhrase = context.phrase + ' ' + newAdj;
+            socket.emit('servePhrase', {phrase: newPhrase});
+            game.set('phrase', newPhrase);
+            game.incrementRounds();
+            game.save();
+          });
+        });
+      } else {
+        util.getAdjective()
+        .then(function(newAdj) {
+          newPhrase = context.phrase + ' ' + newAdj;
+          socket.emit('servePhrase', {phrase: newPhrase});
+          game.set('phrase', newPhrase);
+          game.incrementRounds();
+          game.save();
+        });
+      }
+      // game.set('phrase', newPhrase);
+      // game.incrementRounds();
+      // game.save();
+    });
+  });
+
+  socket.on('joinGame', function(data) {
+    var gameId = data.gameId;
+    new Game({id: gameId})
+    .fetch()
+    .then(function(game) {
+      var context = game;
+      socket.emit('servePhrase', {phrase: game.get('phrase')});
+      timer = util.updateTimer(io, timer, function() {
+        var newAdj = util.getAdjective();
+        var newPhrase = context.get('phrase') + newAdj;
+        socket.emit('servePhrase', {phrase: newPhrase});
+      });
+    });
+    // emit servePhrase
+    // emit startTimer
+    // emit servePhrase on timer end
   });
 
   socket.on('get games', function() {
