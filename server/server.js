@@ -82,9 +82,9 @@ io.on('connection', function(socket) {
         Games.add(myGame);
         // Save this game to database
         myGame.save()
-        .then(function(game) {
+        .then(function() {
           // Emit servePhrase with phrase and this game's id
-          socket.broadcast.emit('servePhrase', {
+          socket.emit('servePhrase', {
             phrase: newAdj,
             gameId: myGame.get('id')
           });
@@ -93,20 +93,36 @@ io.on('connection', function(socket) {
   });
 
   socket.on('sendPhrase', function(data) {
-    var myGame = Game({id: data.gameId})
+    //TODO: Handle going over last round
+    var context = data;
+    new Game({id: data.gameId})
     .fetch()
     .then(function(game) {
+      var newPhrase;
       if (game.currentRound > 0 && game.currentRound < game.lastRound) {
         timer = util.updateTimer(io, timer, function() {
-          var newAdj = util.getAdjective();
-          var newPhrase = data.phrase + newAdj;
-          socket.broadcast.emit('servePhrase', {phrase: newPhrase});
+          util.getAdjective()
+          .then(function(newAdj) {
+            newPhrase = context.phrase + ' ' + newAdj;
+            socket.emit('servePhrase', {phrase: newPhrase});
+            game.set('phrase', newPhrase);
+            game.incrementRounds();
+            game.save();
+          });
         });
       } else {
-        var newAdj = util.getAdjective();
-        var newPhrase = data.phrase + newAdj;
-        socket.broadcast.emit('servePhrase', {phrase: newPhrase});
+        util.getAdjective()
+        .then(function(newAdj) {
+          newPhrase = context.phrase + ' ' + newAdj;
+          socket.emit('servePhrase', {phrase: newPhrase});
+          game.set('phrase', newPhrase);
+          game.incrementRounds();
+          game.save();
+        });
       }
+      // game.set('phrase', newPhrase);
+      // game.incrementRounds();
+      // game.save();
     });
   });
 
@@ -116,11 +132,11 @@ io.on('connection', function(socket) {
     .fetch()
     .then(function(game) {
       var context = game;
-      socket.broadcast.emit('servePhrase', {phrase: game.get('phrase')});
+      socket.emit('servePhrase', {phrase: game.get('phrase')});
       timer = util.updateTimer(io, timer, function() {
         var newAdj = util.getAdjective();
         var newPhrase = context.get('phrase') + newAdj;
-        socket.broadcast.emit('servePhrase', {phrase: newPhrase});
+        socket.emit('servePhrase', {phrase: newPhrase});
       });
     });
     // emit servePhrase

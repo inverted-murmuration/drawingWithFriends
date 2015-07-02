@@ -6,6 +6,11 @@ var Game = db.Model.extend({
   defaults: {
     currentRound: 0,
     lastRound: 2
+  },
+  incrementRounds: function() {
+    this.set("currentRound", this.get("currentRound") + 1);
+    console.log('in incrementRounds');
+    console.log(this);
   }
 });
 

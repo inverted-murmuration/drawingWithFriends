@@ -13,6 +13,7 @@ var sendTimer = function(io, timer) {
   // or upon user drawing the first line. io.emit to all to keep client timer more up to date
   // if there is no timer going, will emit time: null
   io.emit('setTimer', {time: timer && timer.ms});
+  io.emit('startTimer', {time: timer && timer.ms});
 };
 
 //creates a timer if there is no timer and starts it,
