@@ -10,6 +10,8 @@ app.GameModel = Backbone.Model.extend({
     this.pictureModel = new app.PictureModel({width: '500px', height: '500px'});
     this.timerModel = new app.TimerModel();
     var context = this;
+    this.set('playerNumber', options.playerNumber);
+    console.log('playerNumber: ', this.get('playerNumber'));
     // Things to do when timer runs out
     socket.on('round next', function(data) {
       //if not max round
