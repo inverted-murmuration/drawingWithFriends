@@ -8,6 +8,7 @@ app.GameMiniView = Backbone.View.extend({
     'click': function() {
       //TODO
       alert('should do something for id: ' + this.model.id);
+      socket.emit('joinGame', {gameId: this.model.id});
     }
   },
 
