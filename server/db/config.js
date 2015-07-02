@@ -44,6 +44,9 @@ bookshelf.knex.schema.hasTable('Game').then(function (exists) {
     bookshelf.knex.schema.createTable('Game', function (game) {
       game.increments('id').primary();
       game.timestamps();
+      game.string('phrase');
+      game.integer('currentRound');
+      game.integer('lastRound');
     }).then(function (table) {
       console.log('Created table', table);
     });

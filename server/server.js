@@ -4,6 +4,8 @@ var Line = require('./db/models/line');
 var Lines = require('./db/collections/lines');
 var Picture = require('./db/models/picture');
 var Pictures = require('./db/collections/pictures');
+var Game = require('./db/models/game');
+var Games = require('./db/collections/games');
 var util = require('./utils'); //TODO maybe as an injection like routes
 
 
@@ -61,6 +63,59 @@ io.on('connection', function(socket) {
     ///console.log('server has received gallery populate event from client');
     //console.log(util.retrievePictureModels());
     util.retrievePictureModels(socket);
+  });
+
+  socket.on('createGame', function() {
+    var myGame = new Game();
+    var newAdj = util.getAdjective();
+    Games.add(myGame);
+    myGame.set({
+      phrase: newAdj,
+      // Moved to game model
+      // currentRound: 0,
+      // lastRound: 2
+    });
+    myGame.save();
+    socket.broadcast.emit('servePhrase', {
+      phrase: newAdj,
+      gameId: myGame.get('id')
+    });
+  });
+
+  socket.on('sendPhrase', function(data) {
+    var myGame = Game({id: data.gameId})
+    .fetch()
+    .then(function(game) {
+      if (game.currentRound > 0 && game.currentRound < game.lastRound) {
+        timer = util.updateTimer(io, timer, function() {
+          var newAdj = util.getAdjective();
+          var newPhrase = data.phrase + newAdj;
+          socket.broadcast.emit('servePhrase', {phrase: newPhrase});
+        });
+      } else {
+        var newAdj = util.getAdjective();
+        var newPhrase = data.phrase + newAdj;
+        socket.broadcast.emit('servePhrase', {phrase: newPhrase});
+      }
+    });
+  });
+
+  socket.on('joinGame', function(data) {
+    var gameId = data.gameId;
+    new Game({id: gameId})
+    .fetch()
+    .then(function(game) {
+      var context = game;
+      socket.broadcast.emit('servePhrase', {phrase: game.get('phrase')});
+      timer = util.updateTimer(io, timer, function() {
+        var newAdj = util.getAdjective();
+        var newPhrase = context.get('phrase') + newAdj;
+        socket.broadcast.emit('servePhrase', {phrase: newPhrase});
+      });
+    });
+    // emit servePhrase
+    // emit startTimer
+    // emit servePhrase on timer end
   });
 
   socket.on('get games', function() {
