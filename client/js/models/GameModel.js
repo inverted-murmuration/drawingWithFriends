@@ -9,6 +9,7 @@ app.GameModel = Backbone.Model.extend({
   initialize: function(options) {
     this.pictureModel = new app.PictureModel({width: '500px', height: '500px'});
     this.timerModel = new app.TimerModel();
+    var context = this;
     // Things to do when timer runs out
     socket.on('round next', function(data) {
       //if not max round
@@ -17,9 +18,8 @@ app.GameModel = Backbone.Model.extend({
     });
     socket.on('servePhrase', function(data) {
       // phrase is an object. use phrase.phrase to access
-      this.set({phrase: data.phrase});
-      this.set({gameId: data.gameId});
-      this.trigger('updatePhrase');
+      context.set({phrase: data.phrase});
+      context.set({gameId: data.gameId});
     });
     socket.on('startTimer', function(data) {
       // time is an object. use time.time to access time
@@ -37,9 +37,5 @@ app.GameModel = Backbone.Model.extend({
   },
   joinGame: function() {
     socket.emit('joinGame', {gameId: this.model.id});
-  },
-  updatePhrase: function(noun) {
-    this.set({phrase: this.get('phrase') + ' ' + noun});
-    socket.emit('sendPhrase', this.get('phrase'));
   }
 });

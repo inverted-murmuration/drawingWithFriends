@@ -5,21 +5,21 @@ var app = app || {};
 app.GameView = Backbone.View.extend({
 
   initialize: function() {
-     this.appContainer = '.container';
-     this.pictureView = new app.PictureView({
+    this.appContainer = '.container';
+    this.pictureView = new app.PictureView({
        model: this.model.pictureModel,
        container: d3.select(this.appContainer) //TODO this is a little different compared to below rendering for now cuz d3
-     });
-     this.timerView = new app.TimerView({
+    });
+    this.timerView = new app.TimerView({
       model: this.model.timerModel
-     });
-     $(this.appContainer).prepend(this.timerView.render());
+    });
+    $(this.appContainer).prepend(this.timerView.render());
 
     // re-render phrase when updated on gameModel
     this.render();
-    this.on('updatePhrase', function(){
+    this.model.on('change', function(){
       this.render();
-    });
+    }, this);
   },
 
   events: {
