@@ -9,8 +9,6 @@ var Game = db.Model.extend({
   },
   incrementRounds: function() {
     this.set("currentRound", this.get("currentRound") + 1);
-    console.log('in incrementRounds');
-    console.log(this);
   }
 });
 

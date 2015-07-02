@@ -7,6 +7,7 @@ app.GameModel = Backbone.Model.extend({
   },
 
   initialize: function(options) {
+    var context = this;
     this.pictureModel = new app.PictureModel({width: '500px', height: '500px'});
     this.timerModel = new app.TimerModel();
     var context = this;
@@ -20,15 +21,17 @@ app.GameModel = Backbone.Model.extend({
       // phrase is an object. use phrase.phrase to access
       context.set({phrase: data.phrase});
       context.set({gameId: data.gameId});
+      context.trigger('updatePhrase');
     });
     socket.on('startTimer', function(data) {
       // time is an object. use time.time to access time
     });
     if (options.hasOwnProperty('playerNumber')) {
       if (options.playerNumber === 1) {
-        this.createGame();
+        context.createGame();
       } else {
-        this.joinGame();
+        context.id = options.gameId;
+        context.joinGame();
       }
     }
   },
@@ -36,6 +39,10 @@ app.GameModel = Backbone.Model.extend({
     socket.emit('createGame');
   },
   joinGame: function() {
-    socket.emit('joinGame', {gameId: this.model.id});
+    socket.emit('joinGame', {gameId: this.id});
+  },
+  updatePhrase: function(noun) {
+    this.set({phrase: this.get('phrase') + ' ' + noun});
+    socket.emit('sendPhrase', this.get('phrase'));
   }
 });
