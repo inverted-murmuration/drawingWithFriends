@@ -16,6 +16,16 @@ app.GameView = Backbone.View.extend({
 
     // create game when view is instantiated
     this.model.createGame();
+
+    // re-render phrase when updated on gameModel
+    this.render();
+    this.on('updatePhrase', function(){
+      this.render();
+    })
+  },
+
+  render: function() {
+    $(this.appContainer).prepend(this.model.get('phrase'));
   }
 
 });

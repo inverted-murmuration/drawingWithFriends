@@ -10,16 +10,21 @@ app.GameModel = Backbone.Model.extend({
         //reset timer
       //else end game
     });
-    socket.on('servePhrase', function(phrase) {
+    socket.on('servePhrase', function(data) {
       // phrase is an object. use phrase.phrase to access
-
+      this.set({phrase: data.phrase});
+      this.set({gameId: data.gameId});
+      this.trigger('updatePhrase');
     });
-    socket.on('startTimer', function(time) {
+    socket.on('startTimer', function(data) {
       // time is an object. use time.time to access time
     });
   },
   createGame: function(){
     socket.emit('createGame');
-    console.log('Game Created')
+  },
+  updatePhrase: function(noun) {
+    this.set({phrase: this.get('phrase') + ' ' + noun});
+    socket.emit('sendPhrase', this.get('phrase'));
   }
 });
