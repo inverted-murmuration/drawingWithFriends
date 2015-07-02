@@ -1,9 +1,8 @@
-// AppView.js
-// This view will be responsible for instantiating the entire app. Other views will be instantiated on creation of this view. 
+// This view will be responsible for instantiating the entire app. Other views will be instantiated on creation of this view.
 
 var app = app || {};
 
-app.AppView = Backbone.View.extend({
+app.GameView = Backbone.View.extend({
   initialize: function() {
      this.appContainer = '.container';
      this.pictureView = new app.PictureView({
@@ -14,7 +13,9 @@ app.AppView = Backbone.View.extend({
       model: this.model.timerModel
      });
      $(this.appContainer).prepend(this.timerView.render());
-     //var colorpicker = new app.ColorPickerView();
+
+    // create game when view is instantiated
+    this.model.createGame();
   }
 
 });
