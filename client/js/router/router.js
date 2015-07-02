@@ -6,9 +6,9 @@ app.router = Backbone.Router.extend({
     'draw' : 'draw',
     'gallery' : 'gallery',
     'games': 'games',
-    'game/:gameId': 'game'
-    'gallery/:page' : 'gallery'
-    // 'game' : "game" //TODO ????
+    //'game/:gameId': 'game'
+    'gallery/:page' : 'gallery',
+     'game' : "game" //TODO ????
   },
   initialize: function(){
   },
