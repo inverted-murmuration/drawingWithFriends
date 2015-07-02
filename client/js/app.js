@@ -11,9 +11,9 @@ $(function() {
   var router = new app.router();
   Backbone.history.start();
   // Kick things off by creating the **App**.
-  // new app.AppView();
+  // new app.GaneView();
 
   //var appModel = new app.AppModel();
-  //var appView = new app.AppView({model: appModel});
+  //var gameView = new app.GaneView({model: appModel});
 
 });

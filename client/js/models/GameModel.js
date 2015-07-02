@@ -1,5 +1,4 @@
 var app = app || {};
-// initialized in AppModel.js
 
 app.GameModel = Backbone.Model.extend({
   initialize: function() {
@@ -11,22 +10,16 @@ app.GameModel = Backbone.Model.extend({
         //reset timer
       //else end game
     });
-    // When a user joins
-    this.on('join', function() {
-      // TODO: Change player once timer is ended and player joins
-      // Set current player to player 2
+    socket.on('servePhrase', function(phrase) {
+      // phrase is an object. use phrase.phrase to access
 
-      // if time left is 0
-        this.set('currentPlayer', false);
-        //restart timer
+    });
+    socket.on('startTimer', function(time) {
+      // time is an object. use time.time to access time
     });
   },
-  
-  defaults: {
-    currentSentence: '',
-    // true == player 1; false == player 2
-    currentPlayer: true,
-    maximumRounds: 3
+  createGame: function(){
+    socket.emit('createGame');
+    console.log('Game Created')
   }
-
 });

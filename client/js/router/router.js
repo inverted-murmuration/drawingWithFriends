@@ -10,7 +10,7 @@ app.router = Backbone.Router.extend({
     'game' : "game" //TODO ????
   },
   initialize: function(){
-    this.appModel = new app.AppModel(); //the 'app' is the drawing portion of the app
+    this.gameModel = new app.GameModel(); //the 'app' is the drawing portion of the app
   },
   home : function(){
     //TODO refactor all these container emptys
@@ -18,23 +18,6 @@ app.router = Backbone.Router.extend({
     //$('.color-picker').empty();
     var homeView = new app.HomeView();
   },
-  draw : function () {
-    //console.log('running main');
-    $('.container').empty();
-    //$('.color-picker').empty();
-    //if (this.appView) {
-      //this.appView.remove();
-      //debugger;
-    //}
-    this.appView = new app.AppView({model: this.appModel});
-    //render the view when user goes to draw tab
-    //var picture = new app.PictureView({
-        //model: data,
-        //container: container,
-        //width: '500px',
-        //height: '500px'
-      //});
-    },
   gallery : function(page){
     $('.container').empty();
     console.log('router gallery')
@@ -49,6 +32,6 @@ app.router = Backbone.Router.extend({
   },
   game : function() {
     $('.container').empty();
-    this.appView = new app.AppView({model: this.appModel})
+    this.gameView = new app.GameView({model: this.gameModel})
   }
 });
