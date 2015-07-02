@@ -1,6 +1,11 @@
 var app = app || {};
 
 app.GameModel = Backbone.Model.extend({
+
+  defaults: {
+    phrase: ''
+  },
+
   initialize: function(options) {
     this.pictureModel = new app.PictureModel({width: '500px', height: '500px'});
     this.timerModel = new app.TimerModel();
