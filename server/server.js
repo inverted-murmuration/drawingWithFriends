@@ -121,7 +121,7 @@ io.on('connection', function(socket) {
           newPhrase = context.phrase + ' ' + newAdj;
           socket.emit('servePhrase', {phrase: newPhrase});
           game.set('phrase', newPhrase);
-          game.incrementRounds();
+          // game.incrementRounds();
           game.save();
         });
       }

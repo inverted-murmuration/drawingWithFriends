@@ -28,7 +28,7 @@ app.GameView = Backbone.View.extend({
 
   addToPhrase: function(){
     this.model.set('phrase', this.model.get('phrase') + ' ' + prompt('add a noun'));
-    socket.emit('sendPhrase', {phrase: this.model.get('phrase'), gameId: this.model.get('id')});
+    socket.emit('sendPhrase', {phrase: this.model.get('phrase'), gameId: this.model.get('gameId')});
     this.render();
   },
 
