@@ -33,7 +33,7 @@ app.GameView = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.html('<h2>Draw a ...</h2><br>' + this.model.get('phrase') + ' <button class="addNoun">Add New Phrase</button>');
+    this.$el.html('<h2>Draw a ...</h2><br>' + this.model.get('phrase') + ' <button class="addNoun">Add Noun</button>');
     $(this.appContainer).prepend(this.$el);
   }
 
