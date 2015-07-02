@@ -3,6 +3,7 @@
 var app = app || {};
 
 app.GameView = Backbone.View.extend({
+
   initialize: function() {
      this.appContainer = '.container';
      this.pictureView = new app.PictureView({
@@ -18,11 +19,22 @@ app.GameView = Backbone.View.extend({
     this.render();
     this.on('updatePhrase', function(){
       this.render();
-    })
+    });
+  },
+
+  events: {
+    'click .addNoun': 'addToPhrase'
+  },
+
+  addToPhrase: function(){
+    this.model.set('phrase', this.model.get('phrase') + ' ' + prompt('add a noun'));
+    socket.emit('sendPhrase', {phrase: this.model.get('phrase')});
+    this.render();
   },
 
   render: function() {
-    $(this.appContainer).prepend(this.model.get('phrase'));
+    this.$el.html('<h2>Draw a ...</h2><br>' + this.model.get('phrase') + ' <button class="addNoun">Add New Phrase</button>');
+    $(this.appContainer).prepend(this.$el);
   }
 
 });
