@@ -99,6 +99,7 @@ io.on('connection', function(socket) {
     .fetch()
     .then(function(game) {
       var newPhrase;
+      // If is round 1
       if (game.currentRound > 0 && game.currentRound < game.lastRound) {
         timer = util.updateTimer(io, timer, function() {
           util.getAdjective()
@@ -132,11 +133,16 @@ io.on('connection', function(socket) {
     .fetch()
     .then(function(game) {
       var context = game;
-      socket.emit('servePhrase', {phrase: game.get('phrase')});
-      timer = util.updateTimer(io, timer, function() {
-        var newAdj = util.getAdjective();
-        var newPhrase = context.get('phrase') + newAdj;
-        socket.emit('servePhrase', {phrase: newPhrase});
+      game.incrementRounds();
+      game.save()
+      .then(function(theGame) {
+        socket.emit('servePhrase', {phrase: theGame.get('phrase')});
+        socket.emit('roundChange', {round: theGame.get('currentRound')});
+        timer = util.updateTimer(io, timer, function() {
+          var newAdj = util.getAdjective();
+          var newPhrase = context.get('phrase') + newAdj;
+          socket.emit('servePhrase', {phrase: newPhrase});
+        });
       });
     });
     // emit servePhrase
