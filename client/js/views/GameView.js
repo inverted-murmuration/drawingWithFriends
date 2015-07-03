@@ -4,6 +4,8 @@ var app = app || {};
 
 app.GameView = Backbone.View.extend({
 
+  el: 'body',
+
   initialize: function() {
     this.render();
     // re-render phrase when updated on gameModel
@@ -17,7 +19,8 @@ app.GameView = Backbone.View.extend({
   },
 
   addToPhrase: function(){
-    this.model.set('phrase', this.model.get('phrase') + ' ' + prompt('add a noun'));
+    var nounInput = $("#noun").val();
+    this.model.set('phrase', this.model.get('phrase') + ' ' + nounInput);
     socket.emit('sendPhrase', {phrase: this.model.get('phrase'), gameId: this.model.get('gameId')});
     this.render();
   },
@@ -47,21 +50,19 @@ app.GameView = Backbone.View.extend({
     $('.container').empty();
     // Create element
     var inputHTML =
-        '<form class="phraseInput">' +
-          '<div class="row">' +
-            '<div class="small-9 large-10 columns">' +
-              '<span class="prefix">'+ this.model.get('phrase') +'</span>' +
+        //'<form class="phraseInput">' +
+          '<div class="row phraseInput">' +
+            '<div class="large-8 columns">' +
+              '<label for="right-label" class="right inline">'+ this.model.get('phrase') +'</label>' +
             '</div>' +
-            '<div class="small-3 large-2 columns">' +
-              '<input type="text" placeholder="Enter a noun">' +
+            '<div class="large-2 columns">' +
+              '<input id="noun" type="text" placeholder="Enter a noun">' +
             '</div>' +
-          '</div>' +
-          '<div class="row">' +
-            '<div class="column">' +
-            '<button>Submit</button>' +
+            '<div class="large-2 column">' +
+              '<button class="addNoun">Submit</button>' +
             '</div>' +
-          '</div>' +
-        '</form>';
+          '</div>'
+        //'</form>';
     // Add element to page
     $('.container').prepend(inputHTML);
 
