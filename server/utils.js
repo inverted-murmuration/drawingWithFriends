@@ -81,7 +81,12 @@ module.exports.retrievePictureModels = function(socket){
 
 module.exports.retrieveOpenGames = function(socket) {
   //TODO fetch only available games
-  new Game({}).fetchAll().then(function(games){  
+  new Game({})
+  .query(function(qb) {
+    qb.where("joinable", '=', true);
+  })
+  .fetchAll().then(function(games){  
+    console.log('GAMES!', games);
     socket.emit('games served', games);
   });
 };
@@ -94,7 +99,7 @@ module.exports.getAdjective = function() {
     resolve(db.knex.raw("select text from words where type='adjective' order by rand() limit 1").then(function(data) {
       return data[0][0].text;
     }));
-  })
+  });
 };
 
 // gets random verb from words table
@@ -103,5 +108,5 @@ module.exports.getVerb = function() {
     resolve(db.knex.raw("select text from words where type='verb' order by rand() limit 1").then(function(data) {
       return data[0][0].text;
     }));
-  })
+  });
 };

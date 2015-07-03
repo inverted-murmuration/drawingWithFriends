@@ -59,6 +59,7 @@ bookshelf.knex.schema.hasTable('Game').then(function (exists) {
       game.string('phrase');
       game.integer('currentRound');
       game.integer('lastRound');
+      game.boolean('joinable');
     }).then(function (table) {
       console.log('Created table', table);
     });

@@ -5,7 +5,8 @@ var Game = db.Model.extend({
   hasTimestamps: true,
   defaults: {
     currentRound: 0,
-    lastRound: 2
+    lastRound: 2,
+    joinable: false
   },
   incrementRounds: function() {
     this.set("currentRound", this.get("currentRound") + 1);

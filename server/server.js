@@ -99,6 +99,7 @@ io.on('connection', function(socket) {
     .fetch()
     .then(function(game) {
       var newPhrase;
+      game.set('joinable', true);
       // If is round 1
       if (game.get('currentRound') > 0 && game.get('currentRound') < game.get('lastRound')) {
         game.incrementRounds();
@@ -123,6 +124,7 @@ io.on('connection', function(socket) {
           newPhrase = context.phrase + ' ' + newAdj;
           io.sockets.emit('servePhrase', {phrase: newPhrase});
           game.set('phrase', newPhrase);
+
           // game.incrementRounds();
           game.save();
         });
