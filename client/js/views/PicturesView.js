@@ -47,9 +47,7 @@ app.PicturesView = Backbone.View.extend({
       li.append('h2').style('color', this.generateColor()).text(this.generatePhrase());
       var svg = li.append('svg')
       .attr({
-        'class': 'canvas',
-        width: 500,
-        height: 500
+        'class': 'drawingCanvas'
       });
 
       var picture = pictures[pic_id];

@@ -21,70 +21,27 @@ a {
   stroke-linejoin: round;
   stroke-linecap: round;
 }
-nav{
-	float: left;
-  width: 150px;
-  text-align: center;
-  margin: 5px;
-  margin-right: 20px;
-}
+
 .container{
-	float: left;
-	padding: 3px;
 }
-.canvas {
-	float:left;
-	border: 3px solid #333;
-	height:500px;
-	width:500px;
+
+.drawingCanvas {
+    position: fixed;
+    width: 100%;
+	height:100%;
 	background-color: #fff;
 }
-li {
-	list-style: none;
+
+.instructions {
+    color: white;
 }
 
-li.pic h2 {
-  font-family: Comic Sans MS, Comic Sans, sans-serif;
-  margin: 0
-}
-
-svg {
-  margin-bottom: 10px;
-}
-
-nav li{
-	border-top: 1px solid #333;
-	/*padding:10px 5px;*/
-}
-nav li a{
-  padding: 10px;
-  display: block;
-}
-nav li a:hover {
-  color: #fff;
-}
-nav li:hover{
-  background-color: #ccccff;
-}
-nav li:first-child{
-  border: 0;
-}
-/*.color-picker{*/
-	/*padding: 0;*/
-	/*margin: 3px;*/
-/*}*/
-/*select{*/
-	/*margin-left: 15px;*/
-	/*margin-bottom: 5px;*/
-/*}*/
-header{
-	font-size: 18px;
-  margin-left: 250px;
-}
-
-/* timer styling */
 .timerContainer h2 {
-  margin: 0;
-	font-weight: 200;
+    margin: 20px;
+    font-weight: 200;
 	font-size: 3em;
+    float: right;
+    position: relative;
+    z-index: 5;
+    color: #008CBA;
 }

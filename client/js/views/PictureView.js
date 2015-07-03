@@ -4,7 +4,7 @@ var app = app || {};
 
 app.PictureView = Backbone.View.extend({
   tagName: 'svg',
-  className: 'canvas',
+  className: 'drawingCanvas',
 
   initialize: function(options){
     this.render(options);
@@ -54,9 +54,7 @@ app.PictureView = Backbone.View.extend({
     this.d3 = options.container
     .append(this.tagName)
     .attr({
-      'class': this.className,
-      width: this.model.get('width'),
-      height: this.model.get('height')
+      'class': this.className
     })
     .call(d3.behavior.drag()
           .on("dragstart", this.model.dragStarted.bind(this.model))

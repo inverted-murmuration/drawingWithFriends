@@ -41,11 +41,9 @@ app.GameView = Backbone.View.extend({
       button = ' <button class="addNoun">Add Noun</button>';
     }
 
-    this.$el.html('<h2>Draw a ...</h2><br>' + this.model.get('phrase') + button);
-    $(this.appContainer).prepend(this.$el);
-    // console.log('playerNumber: ', this.model.get('playerNumber'));
-    // console.log('round: ', this.model.get('round'));
+    this.$el.html('Draw a ...' + this.model.get('phrase') + button);
+    //$('.instructions').empty();
+    $('.instructions').prepend(this.$el);
   }
 
 });
-
