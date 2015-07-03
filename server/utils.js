@@ -22,7 +22,7 @@ var sendTimer = function(io, timer) {
 //returns the timer
 module.exports.updateTimer = function(io, timer, cb) {
     if (!timer) {
-      timer = new Timer(20000, {
+      timer = new Timer(5000, {
           refreshRateMS: '1000'
         });
       timer.on('done', cb);
