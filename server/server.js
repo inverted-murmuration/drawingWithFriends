@@ -103,14 +103,18 @@ io.on('connection', function(socket) {
       if (game.get('currentRound') > 0 && game.get('currentRound') < game.get('lastRound')) {
         game.incrementRounds();
         io.sockets.emit('roundChange', {round: game.get('currentRound')});
-        game.save();
-        timer = util.updateTimer(io, timer, function() {
-          util.getAdjective()
-          .then(function(newAdj) {
-            newPhrase = context.phrase + ' ' + newAdj;
-            io.sockets.emit('servePhrase', {phrase: newPhrase});
-            game.set('phrase', newPhrase);
-            game.save();
+
+        game.save().then(function(){
+          timer = util.updateTimer(io, null, function() {
+            util.getAdjective()
+              .then(function(newAdj) {
+                newPhrase = context.phrase + ' ' + newAdj;
+                io.sockets.emit('servePhrase', {
+                  phrase: newPhrase
+                });
+                game.set('phrase', newPhrase);
+                game.save();
+              });
           });
         });
       } else {
@@ -134,18 +138,22 @@ io.on('connection', function(socket) {
     new Game({id: gameId})
     .fetch()
     .then(function(game) {
-      var context = game;
       game.incrementRounds();
       game.save()
       .then(function(theGame) {
+        var theGamePhrase = theGame.get('phrase');
+
         io.sockets.emit('servePhrase', {phrase: theGame.get('phrase')});
         //Round 1
-        // console.log(theGame.get('currentRound'));
         io.sockets.emit('roundChange', {round: theGame.get('currentRound')});
         timer = util.updateTimer(io, timer, function() {
-          var newAdj = util.getAdjective();
-          var newPhrase = context.get('phrase') + newAdj;
-          io.sockets.emit('servePhrase', {phrase: newPhrase});
+          util.getAdjective()
+          .then(function(newAdj) {
+            var newPhrase = theGamePhrase + ' ' + newAdj;
+            io.sockets.emit('servePhrase', {phrase: newPhrase});
+            game.set('phrase', newPhrase);
+            game.save();
+          });
         });
       });
     });
