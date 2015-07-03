@@ -100,19 +100,17 @@ io.on('connection', function(socket) {
     .then(function(game) {
       var newPhrase;
       // If is round 1
-      if (game.currentRound > 0 && game.currentRound < game.lastRound) {
+      if (game.get('currentRound') > 0 && game.get('currentRound') < game.get('lastRound')) {
+        game.incrementRounds();
+        io.sockets.emit('roundChange', {round: game.get('currentRound')});
+        game.save();
         timer = util.updateTimer(io, timer, function() {
           util.getAdjective()
           .then(function(newAdj) {
             newPhrase = context.phrase + ' ' + newAdj;
             io.sockets.emit('servePhrase', {phrase: newPhrase});
             game.set('phrase', newPhrase);
-            game.incrementRounds();
-            game.save()
-              .then(function(theGame) {
-                console.log(theGame.get('currentRound'));
-                io.sockets.emit('roundChange', {round: theGame.get('currentRound')});
-              });
+            game.save();
           });
         });
       } else {
@@ -142,7 +140,7 @@ io.on('connection', function(socket) {
       .then(function(theGame) {
         io.sockets.emit('servePhrase', {phrase: theGame.get('phrase')});
         //Round 1
-        console.log(theGame.get('currentRound'));
+        // console.log(theGame.get('currentRound'));
         io.sockets.emit('roundChange', {round: theGame.get('currentRound')});
         timer = util.updateTimer(io, timer, function() {
           var newAdj = util.getAdjective();
