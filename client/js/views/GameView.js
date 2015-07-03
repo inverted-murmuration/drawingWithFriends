@@ -33,10 +33,18 @@ app.GameView = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.html('<h2>Draw a ...</h2><br>' + this.model.get('phrase') + ' <button class="addNoun">Add Noun</button>');
+    var button = '';
+    if(this.model.get('playerNumber') === 1 && this.model.get('round') % 2 === 0){
+      button = ' <button class="addNoun">Add Noun</button>';
+    }
+    if(this.model.get('playerNumber') === 2 && this.model.get('round') % 2 === 1){
+      button = ' <button class="addNoun">Add Noun</button>';
+    }
+
+    this.$el.html('<h2>Draw a ...</h2><br>' + this.model.get('phrase') + button);
     $(this.appContainer).prepend(this.$el);
-    console.log('playerNumber: ', this.model.get('playerNumber'));
-    console.log('round: ', this.model.get('round'));
+    // console.log('playerNumber: ', this.model.get('playerNumber'));
+    // console.log('round: ', this.model.get('round'));
   }
 
 });
