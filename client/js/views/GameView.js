@@ -50,19 +50,12 @@ app.GameView = Backbone.View.extend({
     $('.container').empty();
     // Create element
     var inputHTML =
-        //'<form class="phraseInput">' +
-          '<div class="row phraseInput">' +
-            '<div class="large-8 columns">' +
-              '<label for="right-label" class="right inline">'+ this.model.get('phrase') +'</label>' +
-            '</div>' +
-            '<div class="large-2 columns">' +
-              '<input id="noun" type="text" placeholder="Enter a noun">' +
-            '</div>' +
-            '<div class="large-2 column">' +
-              '<button class="addNoun">Submit</button>' +
-            '</div>' +
-          '</div>'
-        //'</form>';
+        '<div class="phraseInput">' +
+          '<h3>What should opponent draw?</h3>' +
+          '<p>'+ this.model.get('phrase') +' <span class="placeHolder">&lt;add a noun&gt;</span></p>' +
+          '<input id="noun" type="text" placeholder="Enter a noun">' +
+          '<button class="addNoun">Submit</button>' +
+        '</div>';
     // Add element to page
     $('.container').prepend(inputHTML);
 

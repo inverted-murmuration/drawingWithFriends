@@ -48,4 +48,15 @@ a {
 
 .phraseInput {
     margin-top: 100px;
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.phraseInput button {
+    width: 100%;
+}
+
+.placeHolder {
+    color: #008CBA;
 }
