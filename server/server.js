@@ -39,13 +39,13 @@ io.on('connection', function(socket) {
 
     Lines.add({id: data.id, coordinates: data.coordinates}, {merge: true});
 
-    //TODO move all timer logic to another file?
-    timer = util.updateTimer(io, timer, function() { //cb to fire when timer ends
-      util.savePictureAndReset(io, function() { //cb to fire upon successful saving/resetting
-      timer = null; 
+    // //TODO move all timer logic to another file?
+    // timer = util.updateTimer(io, timer, function() { //cb to fire when timer ends
+    //   util.savePictureAndReset(io, function() { //cb to fire upon successful saving/resetting
+    //   timer = null; 
 
-      });
-    });
+    //   });
+    // });
 
     socket.broadcast.emit('user moved', data);
   });
@@ -107,15 +107,17 @@ io.on('connection', function(socket) {
 
         game.save().then(function(){
           timer = util.updateTimer(io, null, function() {
-            util.getAdjective()
-              .then(function(newAdj) {
-                newPhrase = context.phrase + ' ' + newAdj;
-                io.sockets.emit('servePhrase', {
-                  phrase: newPhrase
-                });
-                game.set('phrase', newPhrase);
-                game.save();
-              });
+            io.sockets.emit('roundOver');
+            //I don't think this is doing anything
+            // util.getAdjective()
+            //   .then(function(newAdj) {
+            //     newPhrase = context.phrase + ' ' + newAdj;
+            //     io.sockets.emit('servePhrase', {
+            //       phrase: newPhrase
+            //     });
+            //     game.set('phrase', newPhrase);
+            //     game.save();
+            //   });
           });
         });
       } else {
@@ -149,6 +151,8 @@ io.on('connection', function(socket) {
         //Round 1
         io.sockets.emit('roundChange', {round: theGame.get('currentRound')});
         timer = util.updateTimer(io, timer, function() {
+          io.sockets.emit('roundOver');
+          console.log('first round over');
           util.getAdjective()
           .then(function(newAdj) {
             var newPhrase = theGamePhrase + ' ' + newAdj;

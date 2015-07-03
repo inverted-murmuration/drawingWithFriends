@@ -86,7 +86,6 @@ module.exports.retrieveOpenGames = function(socket) {
     qb.where("joinable", '=', true);
   })
   .fetchAll().then(function(games){  
-    console.log('GAMES!', games);
     socket.emit('games served', games);
   });
 };
