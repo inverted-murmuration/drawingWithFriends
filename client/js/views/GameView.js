@@ -33,10 +33,10 @@ app.GameView = Backbone.View.extend({
     // Create message
     var messages = {
       empty: '',
-      r1p1: 'Player 2 drawing a ' + this.model.get('phrase'),
-      r1p2: 'Draw a ' + this.model.get('phrase'),
-      r2p1: 'Draw a ' + this.model.get('phrase'),
-      r2p2: 'Player 1 drawing a ' + this.model.get('phrase')
+      r1p1: 'Player 2 drawing: <span class="placeHolder">' + this.model.get('phrase') + '</span>',
+      r1p2: 'Draw: <span class="placeHolder">' + this.model.get('phrase') + '</span>',
+      r2p1: 'Draw: <span class="placeHolder">' + this.model.get('phrase') + '</span>',
+      r2p2: 'Player 1 drawing: <span class="placeHolder">' + this.model.get('phrase') + '</span>'
     };
     // TODO: add correct message based on player and round
     var message = messages['r1p1'];
