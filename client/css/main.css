@@ -45,3 +45,7 @@ a {
     z-index: 5;
     color: #008CBA;
 }
+
+.phraseInput {
+    margin-top: 100px;
+}
