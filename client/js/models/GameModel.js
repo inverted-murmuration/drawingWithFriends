@@ -55,7 +55,14 @@ app.GameModel = Backbone.Model.extend({
       context.pictureModel.set('roundOver', false);
       context.pictureModel.set('round', data.round);
     });
+
+    socket.on('roundOver', function(){
+      if(context.get('round') === 1) {
+        context.set('roundOneOver', true);
+      }
+    })
   },
+
   createGame: function() {
     socket.emit('createGame');
   },
