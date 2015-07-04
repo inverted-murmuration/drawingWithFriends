@@ -121,7 +121,7 @@ io.on('connection', function(socket) {
           });
         });
       } else {
-        util.getAdjective()
+        util.getVerb()
         .then(function(newAdj) {
           newPhrase = context.phrase + ' ' + newAdj;
           io.sockets.emit('servePhrase', {phrase: newPhrase});
