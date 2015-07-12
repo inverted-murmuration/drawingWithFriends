@@ -15,46 +15,14 @@ app.GameView = Backbone.View.extend({
   },
 
   events: {
-    'click .addNoun': 'addToPhrase'
-  },
-
-  addToPhrase: function(){
-    var nounInput = $("#noun").val();
-    this.model.set('phrase', this.model.get('phrase') + ' ' + nounInput);
-    socket.emit('sendPhrase', {phrase: this.model.get('phrase'), gameId: this.model.get('gameId')});
-    this.render();
+    'click .addNoun': function(){this.model.addToPhrase();},//'addToPhrase',
+    'click .create': function(){this.model.createGame();}
   },
 
   render: function() {
     var context = this;
     var round = this.model.get('round');
     var player = this.model.get('playerNumber');
-
-    //if (round === 0) {
-    //  if (player === 1) {
-    //
-    //  } else if (player === 2) {
-    //
-    //  }
-    //} else if (round === 1) {
-    //  if (player === 1) {
-    //
-    //  } else if (player === 2) {
-    //
-    //  }
-    //} else if (round === 2) {
-    //  if (player === 1) {
-    //
-    //  } else if (player === 2) {
-    //
-    //  }
-    //} else if (round > 2) {
-    //  if (player === 1) {
-    //
-    //  } else if (player === 2) {
-    //
-    //  }
-    //}
 
     // SECTION: Phrase in top right of header bar
     // clear div of previous items
