@@ -12,6 +12,9 @@ app.GameModel = Backbone.Model.extend({
       playerNumber: options.playerNumber,
       round: 0
     });
+
+    // this.on('addToPhrase', this.addToPhrase);
+
     this.timerModel = new app.TimerModel();
     var context = this;
     this.set('playerNumber', options.playerNumber);
@@ -40,6 +43,7 @@ app.GameModel = Backbone.Model.extend({
       // time is an object. use time.time to access time
     });
     if (options.hasOwnProperty('playerNumber')) {
+      console.log('playerNumber: ' + options.playerNumber);
       if (options.playerNumber === 1) {
         context.createGame();
       } else {
@@ -60,7 +64,7 @@ app.GameModel = Backbone.Model.extend({
       if(context.get('round') === 1) {
         context.set('roundOneOver', true);
       }
-    })
+    });
   },
 
   createGame: function() {
@@ -70,5 +74,12 @@ app.GameModel = Backbone.Model.extend({
     socket.emit('joinGame', {
       gameId: this.get('id')
     });
-  }
+  },
+  addToPhrase: function(){
+    var nounInput = $("#noun").val();
+    this.set('phrase', this.get('phrase') + ' ' + nounInput);
+    socket.emit('sendPhrase', {phrase: this.get('phrase'), gameId: this.get('gameId')});
+  },
+
 });
+

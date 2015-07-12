@@ -12,7 +12,7 @@ app.PictureModel = Backbone.Model.extend({
     this.set('round', defaults.round);
     this.set('roundOver', false);
     this.on('change:roundOver', function() {
-      console.log('round over for picture')
+      // console.log('round over for picture')
     });
   },
   canDraw: function() {

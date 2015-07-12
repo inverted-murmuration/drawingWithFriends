@@ -15,7 +15,7 @@ app.router = Backbone.Router.extend({
     //TODO refactor all these container emptys
     $('.container').empty();
     //$('.color-picker').empty();
-    var homeView = new app.HomeView();
+    this.homeView = new app.HomeView();
   },
   gallery : function(page){
     $('.container').empty();
@@ -31,13 +31,14 @@ app.router = Backbone.Router.extend({
   game : function(id) {
     var gameId = parseInt(id);
     if (gameId === -1) {
-      this.gameModel = new app.GameModel({playerNumber: 1}); //the 'app' is the drawing portion of the app
-      $('.container').empty();
-      this.gameView = new app.GameView({model: this.gameModel})
-    } else {
-      this.gameModel = new app.GameModel({playerNumber: 2, gameId: gameId}); //the 'app' is the drawing portion of the app
-      $('.container').empty();
-      this.gameView = new app.GameView({model: this.gameModel})
+      //the 'app' is the drawing portion of the app
+      this.gameModel = this.gameModel || new app.GameModel({playerNumber: 1}); 
+      this.gameModel.set('phrase', '');  // reset phrase when click Create Game
+      this.gameView = this.gameView || new app.GameView({model: this.gameModel});
+    } 
+    else {
+      this.gameModel = this.gameModel || new app.GameModel({playerNumber: 2, gameId: gameId});
+      this.gameView = this.gameView || new app.GameView({model: this.gameModel});
     }
   }
 });

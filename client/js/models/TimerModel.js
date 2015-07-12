@@ -10,8 +10,8 @@ app.TimerModel = Backbone.Model.extend({
     socket.emit('getTimer'); //get the curr server time if there is one (or else only gets it when server emits setTimer)
 
     socket.on('setTimer', function(data) {
-      //console.log('settimer');
-      if (!data.time) return this.set('time', 'Be the first to draw!');
+      console.log('setTimer:' + data.time);
+      // if (!data.time) return this.set('time', 'Be the first to draw!');
 
       var self = this;
       //just having a server timer would be more accurate but more expensive for server. 
